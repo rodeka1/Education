@@ -33,6 +33,50 @@ void brute_force(vector<vector<int>>& graph, int& length, vector<int>& realAnswe
 
 }
 
+void tsp(vector<vector<int>>& graph, int& length, vector<int>& realAnswer){
+    int s = (1<<(graph.size()-1))-1;
+    vector<vector<int>> path(s);
+    vector<vector<int>> local_sum(s);
+    for(int i=0; i<s; i++){
+        path[i]=vector<int>(graph.size()-1, 0);
+        local_sum[i]=vector<int>(graph.size()-1, -1);
+    }
+
+    int sum_path=INT32_MAX;
+    for(int i; i<graph.size()-1; i++){
+        int index = 1 << i;
+        if (s&index != 0){
+            int sum_temp=tsp_next(graph, path, local_sum, s^index, i) + graph[i][0];
+            if(sum_temp < sum_path){
+                sum_path=sum_temp;
+                path[0][0] = i;
+            }
+        }
+    }
+    local_sum[0][0]=sum_path;
+
+}
+
+int tsp_next(vector<vector<int>>& graph, vector<vector<int>> path, vector<vector<int>> local_sum, int s, int v){
+    if(local_sum[s][v]!=-1)
+        return local_sum[s][v];
+    if(s==0)
+        return graph[0][v];
+    int sum_path=INT32_MAX;
+    for(int i=0; i<graph.size(); i++){
+        int index = 1 << i;
+        if(s&index!=0){
+            int sum_temp=tsp_next(graph, path, local_sum, s^index, i) + graph[i][v];
+            if(sum_temp < sum_path){
+                sum_path=sum_temp;
+                path[s][v] = i;
+            }
+        }
+    }
+}
+
+
+
 void printPath(vector<int>& answer){
     for(int i=0; i<answer.size(); i++){
         printf("%d ", answer[i]);
