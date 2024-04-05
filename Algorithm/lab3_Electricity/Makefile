@@ -1,3 +1,5 @@
-test:
-	g++ -o main main.cpp
+all:
+	gcc -o main main.c
 	./main
+clean:
+	rm ./main

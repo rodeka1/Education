@@ -1,5 +1,5 @@
 install:
-	g++ -o main main.cpp
+	gcc -o main main.c
 	./main
 clean:
 	rm main
