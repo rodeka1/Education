@@ -11,22 +11,21 @@ typedef struct {
 Component** parseFile(char* fileName, int* countNodes, int* countEdges, int* countVoltage){
     FILE* file;
     file = fopen(fileName, "r");
-    int count, a;
     fscanf(file, "%d %d\n", countNodes, countEdges);
     Component** components=malloc((*countEdges)*sizeof(Component*));
 
     char type;
     int high, low;
-    float value;
+    double value;
     for(int i=0; i<(*countEdges); i++){
         components[i]=malloc(sizeof(Component*));
-        fscanf(file, "%c %d %d %f\n", &type, &high, &low, &value);
+        fscanf(file, "%c %d %d %lf\n", &type, &high, &low, &value);
         components[i]->type = type;
         components[i]->high = high;
         components[i]->low = low;
         components[i]->value = value;
         if(type=='V')
-            *countVoltage+=1;
+            (*countVoltage)+=1;
     }
     return components;
 }
@@ -55,13 +54,12 @@ Matrix* initMatrix(int size_i, int size_j){
 void printMatrix(Matrix* A){
     for(int i=0; i< A->i; i++){
         for(int j=0; j< A->j; j++){
-            printf("%.3f ", A->M[i][j]);
+            printf("%.3lf ", A->M[i][j]);
         }
         printf("\n");
     }
     return;
 }
-
 
 Matrix** calculateMatrices(Component** components, int countNodes, int countEdges, int countVoltage){
     Matrix** answer = malloc(2*sizeof(Matrix*));
@@ -69,7 +67,7 @@ Matrix** calculateMatrices(Component** components, int countNodes, int countEdge
     printf("g2:%d\nmatrix:%d\n", countVoltage, matrixSize);
     Matrix* A = initMatrix(matrixSize, matrixSize);
     Matrix* b = initMatrix(matrixSize, 1);
-    int g2Index = countNodes-countVoltage;
+    int g2Index = countNodes-1;
     for(int i=0; i<countEdges; i++){
         int high = components[i]->high;
         int low = components[i]->low;
@@ -136,9 +134,8 @@ void printSLAU(Matrix** answer){
     }
 }
 
-
 int main(){
-    int countEdges, countNodes, countVoltage;
+    int countEdges, countNodes, countVoltage=0;
     Component** components;
     components = parseFile("test.txt", &countNodes, &countEdges, &countVoltage);
     Matrix** answer;
