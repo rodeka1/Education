@@ -41,6 +41,7 @@ void printPath(vector<int>& answer){
 }
 
 
+
 int main(int argc, char const *argv[])
 {
     freopen("test.txt", "r", stdin);
