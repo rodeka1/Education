@@ -246,7 +246,7 @@ Path* AntAlgorithm(Graph* graph, double alpha, double beta, double Q, double p){
 }
 
 void freeAll(Graph* graph1, Graph* graph2, Path* path1, Path* path2){
-    for(int i=0;i<graph1->size; i++){
+    for(int i = 0; i < graph1->size; i++){
         free(graph1->M[i]);
         free(graph2->M[i]);
     }
