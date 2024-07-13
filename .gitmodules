@@ -1,0 +1,3 @@
+[submodule "OS/lab3/linpack"]
+	path = OS/lab3/linpack
+	url = https://github.com/ereyes01/linpack
