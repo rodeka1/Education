@@ -59,5 +59,5 @@ SELECT * FROM users_info ORDER by date_of_birth ASC LIMIT 3;
 SELECT teams_info.name AS team_name, COUNT(users_info.id) AS member_count FROM teams_info LEFT JOIN users_info ON teams_info.id = users_info.team_id GROUP BY teams_info.id, teams_info.name;
 \echo 12
 SELECT username FROM users_info WHERE id IN (SELECT leader_id FROM teams_info);
-
+\quit
 EOF
